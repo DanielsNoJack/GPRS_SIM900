@@ -113,6 +113,10 @@ bool GPRS::isNetworkRegistered(void) {
     char gprsBuffer[32];
     int count = 0;
     sim900_clean_buffer(gprsBuffer, 32);
+    //Enable read network status
+    sim900_send_cmd(F("AT+CREG=1\r\n"));
+    sim900_read_buffer(gprsBuffer,32,DEFAULT_TIMEOUT);
+    sim900_clean_buffer(gprsBuffer,32);
     while (count < 3) {
         sim900_send_cmd(F("AT+CREG?\r\n"));
         sim900_read_buffer(gprsBuffer, 32, DEFAULT_TIMEOUT);
